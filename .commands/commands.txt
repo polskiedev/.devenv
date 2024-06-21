@@ -1,0 +1,23 @@
+Here’s how you can add a submodule and specify its default branch:
+=====================
+git submodule add <repository_url> <path/to/submodule>
+git submodule add -b <branch_name> <repository_url> <path/to/submodule>
+
+
+Step 2: Initialize and Update the Submodule
+=====================
+git submodule init
+git submodule update --remote --merge
+=====================
+git submodule status
+=====================
+Fetch and Update All Submodules:
+=====================
+git submodule foreach git fetch
+git submodule foreach git pull origin $(git rev-parse --abbrev-ref HEAD)
+=====================
+Update a Specific Submodule:
+
+cd path/to/submodule
+git fetch
+git pull origin $(git rev-parse --abbrev-ref HEAD)
