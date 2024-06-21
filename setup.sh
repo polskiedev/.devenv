@@ -8,6 +8,7 @@ help() {
     echo "  initialize     Run the initialize function"
     echo "  update         Run the update function"
     echo "  help           Display this help message"
+    echo "  make:links     Make symlinks for packages"
     echo
     echo "If no command is provided, 'initialize' will be run by default."
 }
@@ -29,7 +30,7 @@ update() {
 make_symlinks() {
     echo "Creating symlinks..."
 	local script_dir=$(dirname "$(readlink -f "$0")")
-	local list=(".dotfiles")
+	local list=(".dotfiles" ".polskie.sh")
 	
 	# list+=(package2)
 	# Loop through each element in the array
@@ -39,7 +40,6 @@ make_symlinks() {
 
 		__create_symlink "$target_dir" "$symlink_target"
 	done
-	
 }
 
 # Define the function to check and create a symlink
@@ -73,14 +73,14 @@ else
         init)
             initialize
             ;;
-        "make:symlinks")
+        "make:links")
             make_symlinks
             ;;
         update)
             update
             ;;
         *)
-            echo "Invalid parameter. Usage: ./setup.sh [init|update|"make:symlinks"]"
+            echo "Invalid parameter. Usage: ./setup.sh [init|update|"make:links"]"
             exit 1
             ;;
     esac
