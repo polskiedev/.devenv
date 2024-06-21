@@ -1,3 +1,11 @@
+.ignore/*
+.private/*
+.secure/*
+.local/*
+.polskie/*
+.example/*
+.cache/*
+
 /vendor/
 node_modules/
 packages/*
@@ -16,10 +24,3 @@ submodules/*
 .env
 .cache
 
-.ignore/*
-.private/*
-.secure/*
-.local/*
-.polskie/*
-.example/*
-.cache/*
