@@ -1,4 +1,4 @@
-[submodule "packages/.dotenv"]
-    path = packages/.dotenv
-    url = https://github.com/polskiedev/.dotenv.git
-    branch = main
+[submodule "packages/.dotfiles"]
+	path = packages/.dotfiles
+	url = https://github.com/polskiedev/.dotfiles.git
+	branch = main
