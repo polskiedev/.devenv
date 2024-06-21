@@ -1,0 +1,12 @@
+[submodule "submodules/submodule-1"]
+    path = submodules/submodule-1
+    url = https://github.com/polskiedev/test-submodule-3.git
+    branch = develop
+[submodule "submodules/submodule-2"]
+    path = submodules/submodule-2
+    url = https://github.com/polskiedev/test-submodule-3.git
+    branch = develop
+[submodule "submodules/submodule-3"]
+    path = submodules/submodule-3
+    url = https://github.com/polskiedev/test-submodule-3.git
+    branch = develop
