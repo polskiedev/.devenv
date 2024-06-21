@@ -1,15 +1,14 @@
-.ignore/*
-.private/*
-.secure/*
-.local/*
-.polskie/*
-.example/*
-.cache/*
+.ignore/
+.private/
+.secure/
+.local/
+.polskie/
+.example/
+.cache/
 
 /vendor/
 node_modules/
-packages/*
-submodules/*
+submodules/
 
 *.log
 *.tmp

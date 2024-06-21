@@ -2,3 +2,7 @@
 	path = packages/.dotfiles
 	url = https://github.com/polskiedev/.dotfiles.git
 	branch = main
+[submodule "packages/.polskie.sh"]
+	path = packages/.polskie.sh
+	url = https://github.com/polskiedev/.polskie.sh.git
+	branch = main
