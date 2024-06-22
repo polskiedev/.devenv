@@ -82,13 +82,15 @@ makefile() {
 
     echo "#!/bin/bash" >> "$output_file"
     echo "" >> "$output_file"
-    echo "if [ -z \"\$IS_SOURCED_DEVENV\" ]; then" >> "$output_file"
-    echo "  IS_SOURCED_DEVENV=true" >> "$output_file"
-    echo "  echo \"Loaded: .devenv/sources.sh\"" >> "$output_file"
-    echo "else" >> "$output_file"
-    echo "  echo \"Script '.devenv/sources.sh' already sourced.\"" >> "$output_file"
-    echo "  return 1" >> "$output_file"
-    echo "fi" >> "$output_file"
+    echo "echo \"Loaded: .devenv/sources.sh\"" >> "$output_file"
+
+    # echo "if [ -z \"\$IS_SOURCED_DEVENV\" ]; then" >> "$output_file"
+    # echo "  IS_SOURCED_DEVENV=true" >> "$output_file"
+    # echo "  echo \"Loaded: .devenv/sources.sh\"" >> "$output_file"
+    # echo "else" >> "$output_file"
+    # echo "  echo \"Script '.devenv/sources.sh' already sourced.\"" >> "$output_file"
+    # echo "  return 1" >> "$output_file"
+    # echo "fi" >> "$output_file"
     echo "" >> "$output_file"
 
     local env_file="$PATH_DEVENV/.env/vars.sh"
