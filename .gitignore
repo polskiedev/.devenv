@@ -5,6 +5,10 @@
 .polskie/
 .example/
 .cache/
+.symlinks/
+.env/
+.output/
+.tests/
 
 /vendor/
 node_modules/
