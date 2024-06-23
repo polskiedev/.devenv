@@ -63,7 +63,7 @@ make_symlinks() {
     fi
 
     if [[ -d "$repo_dir/system" ]]; then
-        create_symlink "$PATH_DEVENV/common/functions" "$repo_dir/system/common"
+        create_symlink "$PATH_DEVENV/common/functions" "$repo_dir/common"
     fi
 }
 
