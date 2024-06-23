@@ -1,0 +1,6 @@
+# Stage 2: Create the final image
+FROM devenv-test-base:latest as final
+
+
+# Set the default command to run your script
+CMD ["/install.sh"]

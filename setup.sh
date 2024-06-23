@@ -44,6 +44,29 @@ make_symlinks() {
 	done
 
     __create_symlink "$HOME/.devenv.sources.sh" "$PATH_DEVENV/.output/sources.sh"
+
+    local repo_polskie_sh="$HOME/.polskie.sh"
+    if [[ -d "$repo_polskie_sh" ]]; then
+        if [[ ! -d "$repo_polskie_sh/.symlinks" ]]; then
+            mkdir "$repo_polskie_sh/.symlinks"
+        fi
+
+        # Todo: 
+        #   - Can't create symlink to an existing directory
+        #   - - - Resolution: Temporary rename target directory first
+		local from="$PATH_DEVENV/docker"
+		local to="$repo_polskie_sh/.symlinks/docker"
+        local from_tmp="$RANDOM"
+
+        mv "$from" "$from-$from_tmp"
+
+        # cd "$repo_polskie_sh/.symlinks"
+        if [[ ! -d "$PATH_DEVENV/docker" ]]; then
+            __create_symlink "$from" "$to"
+        fi
+
+        mv "$from-$from_tmp" "$from"
+    fi
 }
 
 # Define the function to check and create a symlink
@@ -59,8 +82,8 @@ __create_symlink() {
         fi
     else
         echo "$from is not a symlink. Creating a symlink..."
-        ln -s "$from" "$to"
         echo "Symlink created from source '$from' to '$to'."
+        ln -s "$from" "$to"
     fi
 }
 
@@ -109,6 +132,14 @@ first_run() {
     make_symlinks
 }
 
+docker_console() {
+    docker run --rm -it "devenv-test" bash
+}
+
+docker_start() {
+    ./docker/start.docker.sh
+}
+
 # Check the parameter and call the corresponding function
 if [ -z "$1" ]; then
     # No parameter passed, default to help
@@ -133,6 +164,12 @@ else
             ;;
         "first-run")
             first_run
+            ;;
+        "docker:start" | "d:s")
+            docker_start
+            ;;
+        "docker:console" | "d:c")
+            docker_console
             ;;
         *)
             echo "Invalid parameter. Usage: ./setup.sh ["first-run"|init|update|"make:links"|"make:file"]"
