@@ -1,0 +1,2 @@
+fix alias upon redeploy, this is also issue running test using aliases> hero?
+fix docker setup it seems not working automatically after run

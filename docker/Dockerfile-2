@@ -1,6 +1,10 @@
 # Stage 2: Create the final image
 FROM devenv-test-base:latest as final
 
+WORKDIR /home/ubuntu
+
+# Make the script executable
+RUN chmod +x /home/ubuntu/install.sh
 
 # Set the default command to run your script
-CMD ["/install.sh"]
+# CMD ["/home/ubuntu/install.sh"]

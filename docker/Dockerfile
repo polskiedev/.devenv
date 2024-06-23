@@ -7,7 +7,4 @@ RUN apt-get update && apt-get install -y \
     git
 
 # Copy your script into the container
-COPY install.sh /
-
-# Make the script executable
-RUN chmod +x /install.sh
+COPY install.sh /home/ubuntu

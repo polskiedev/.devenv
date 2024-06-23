@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source .env/vars.sh
+source common/sources.sh
+
 # Define the help function
 help() {
     echo "Usage: ./setup.sh [command]"
@@ -33,61 +36,36 @@ make_symlinks() {
     echo "Creating symlinks..."
 	local script_dir=$(dirname "$(readlink -f "$0")")
 	local list=(".dotfiles" ".polskie.sh")
-	
+    local source_path=""
+    local dest_path=""
 	# list+=(package2)
-	# Loop through each element in the array
-	for element in "${list[@]}"; do
-		local from="$HOME/$element"
-		local to="$script_dir/packages/$element"
 
-		__create_symlink "$from" "$to"
+	# Loop through each element in the array
+	for item in "${list[@]}"; do
+		source_path="$HOME/$item"
+		dest_path="$script_dir/packages/$item"
+
+		create_symlink "$HOME/$item" "$script_dir/packages/$item"
 	done
 
-    __create_symlink "$HOME/.devenv.sources.sh" "$PATH_DEVENV/.output/sources.sh"
+    # Make sure symlink of compiled sources from $list have a copy in root directory
+    create_symlink "$HOME/.devenv.sources.sh" "$PATH_DEVENV/.output/sources.sh"
 
-    local repo_polskie_sh="$HOME/.polskie.sh"
-    if [[ -d "$repo_polskie_sh" ]]; then
-        if [[ ! -d "$repo_polskie_sh/.symlinks" ]]; then
-            mkdir "$repo_polskie_sh/.symlinks"
-        fi
+    local repo_dir="$HOME/.polskie.sh"
+    local sub_dir=".shared"
 
-        # Todo: 
-        #   - Can't create symlink to an existing directory
-        #   - - - Resolution: Temporary rename target directory first
-		local from="$PATH_DEVENV/docker"
-		local to="$repo_polskie_sh/.symlinks/docker"
-        local from_tmp="$RANDOM"
+    if [[ -d "$repo_dir" ]]; then
+        list=("docker" ".todo" ".local")
+        for item in "${list[@]}"; do
+            create_directories "$repo_dir/$sub_dir"
+            create_symlink "$PATH_DEVENV/$item" "$repo_dir/$sub_dir/$item"
+        done
+    fi
 
-        mv "$from" "$from-$from_tmp"
-
-        # cd "$repo_polskie_sh/.symlinks"
-        if [[ ! -d "$PATH_DEVENV/docker" ]]; then
-            __create_symlink "$from" "$to"
-        fi
-
-        mv "$from-$from_tmp" "$from"
+    if [[ -d "$repo_dir/system" ]]; then
+        create_symlink "$PATH_DEVENV/common/functions" "$repo_dir/system/common"
     fi
 }
-
-# Define the function to check and create a symlink
-__create_symlink() {
-    local from="$1"
-    local to="$2"
-
-    if [ -e "$from" ]; then
-        if [ -L "$from" ]; then
-            echo "$from is already a symlink."
-        else
-            echo "Error: $from already exists as a directory."
-        fi
-    else
-        echo "$from is not a symlink. Creating a symlink..."
-        echo "Symlink created from source '$from' to '$to'."
-        ln -s "$from" "$to"
-    fi
-}
-
-source .env/vars.sh
 
 makefile() {
     local output_dir="$PATH_DEVENV/.output"

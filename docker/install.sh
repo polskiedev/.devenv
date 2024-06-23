@@ -1,6 +1,12 @@
 #!/bin/bash
 
+# Todo: Not working properly when docker starts?
+devenv_test_branch="DEV-000003-setup"
+home_dir="/root/ubuntu"
+
 echo "Downloading '.devenv' repository..."
+
+echo "Current Directory: $PWD"
 
 # Check if Git is installed and get its version
 if git --version &> /dev/null; then
@@ -18,6 +24,15 @@ else
     echo "Failed to clone Git repository."
 fi
 
+chmod 755 .devenv
+
+echo "$PWD"
+
 ls -al
 
 echo "Installing '.devenv'..."
+
+cd .devenv
+
+git checkout "$devenv_test_branch"
+

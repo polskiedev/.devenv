@@ -9,7 +9,7 @@ base_path=$(basename "$PWD")
 dir_polskie_sh=".polskie.sh"
 
 if [ "$base_path" = "$dir_polskie_sh" ]; then
-    dockerfile_path=".symlinks/docker"
+    dockerfile_path=".shared/docker"
 fi
 
 cd "$dockerfile_path"
