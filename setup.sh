@@ -34,41 +34,38 @@ update() {
 
 make_symlinks() {
     echo "Creating symlinks..."
-	local script_dir=$(dirname "$(readlink -f "$0")")
+	local script_dir="$PATH_DEVENV"
 	local list=(".dotfiles" ".polskie.sh")
+    local sub_dir=".shared"
     local source_path=""
     local dest_path=""
 	# list+=(package2)
 
 	# Loop through each element in the array
 	for item in "${list[@]}"; do
-		source_path="$HOME/$item"
-		dest_path="$script_dir/packages/$item"
+        local package_source="$script_dir/packages/$item"
+		create_symlink "$package_source" "$HOME/$item"
 
-		create_symlink "$HOME/$item" "$script_dir/packages/$item"
+        if [[ -d "$package_source" ]]; then
+            local list2=("docker" ".todo" ".local")
+            for item2 in "${list2[@]}"; do
+                create_directories "$package_source/$sub_dir"
+                create_symlink "$script_dir/$item2" "$package_source/$sub_dir/$item2"
+            done
+        fi
+
+        if [[ -d "$script_dir/common/functions" ]]; then
+            create_symlink "$script_dir/common/functions" "$package_source/common"
+        fi
 	done
 
     # Make sure symlink of compiled sources from $list have a copy in root directory
-    create_symlink "$HOME/.devenv.sources.sh" "$PATH_DEVENV/.output/sources.sh"
-
-    local repo_dir="$HOME/.polskie.sh"
-    local sub_dir=".shared"
-
-    if [[ -d "$repo_dir" ]]; then
-        list=("docker" ".todo" ".local")
-        for item in "${list[@]}"; do
-            create_directories "$repo_dir/$sub_dir"
-            create_symlink "$PATH_DEVENV/$item" "$repo_dir/$sub_dir/$item"
-        done
-    fi
-
-    if [[ -d "$repo_dir/system" ]]; then
-        create_symlink "$PATH_DEVENV/common/functions" "$repo_dir/common"
-    fi
+    create_symlink "$PATH_DEVENV/.output/sources.sh" "$HOME/.devenv.sources.sh"
 }
 
 makefile() {
-    local output_dir="$PATH_DEVENV/.output"
+    local script_dir="$PATH_DEVENV"
+    local output_dir="$script_dir/.output"
     local output_file="$output_dir/sources.sh"
 
     # Ensure the output directory exists
@@ -84,25 +81,35 @@ makefile() {
     echo "#!/bin/bash" >> "$output_file"
     echo "" >> "$output_file"
     echo "echo \"Loaded: .devenv/sources.sh\"" >> "$output_file"
-
-    # echo "if [ -z \"\$IS_SOURCED_DEVENV\" ]; then" >> "$output_file"
-    # echo "  IS_SOURCED_DEVENV=true" >> "$output_file"
-    # echo "  echo \"Loaded: .devenv/sources.sh\"" >> "$output_file"
-    # echo "else" >> "$output_file"
-    # echo "  echo \"Script '.devenv/sources.sh' already sourced.\"" >> "$output_file"
-    # echo "  return 1" >> "$output_file"
-    # echo "fi" >> "$output_file"
     echo "" >> "$output_file"
 
     local env_file="$PATH_DEVENV/.env/vars.sh"
     env_file=$(replace_home_path "$env_file")
     echo "[[ ! -f \"$env_file\" ]] || source \"$env_file\"" >> "$output_file"
     
-	# Loop through each element in the array
-	for element in "${list[@]}"; do
-        local source_file="$HOME/$element/.output/sources.sh"
-        source_file=$(replace_home_path "$source_file")
-        echo "[[ ! -f \"$source_file\" ]] || source \"$source_file\"" >> "$output_file"
+    # Add env files first
+	# Loop through each item in the array
+	for item in "${list[@]}"; do
+        local source_file=".env/vars.sh"
+        local package_source="$script_dir/packages/$item"
+        local source_file_path="$package_source/$source_file"
+
+        # source_file_path=$(realpath "$source_file_path")
+        source_file_path=$(replace_home_path "$source_file_path")
+        echo "[[ ! -f \"$source_file_path\" ]] || source \"$source_file_path\"" >> "$output_file"
+	done
+
+    echo "" >> "$output_file"
+	# Loop through each item in the array
+	for item in "${list[@]}"; do
+        local source_file=".output/sources.sh"
+        local package_source="$script_dir/packages/$item"
+        local source_file_path="$package_source/$source_file"
+
+        # source_file_path=$(realpath "$source_file_path")
+        source_file_path=$(replace_home_path "$source_file_path")
+
+        echo "[[ ! -f \"$source_file_path\" ]] || source \"$source_file_path\"" >> "$output_file"
 	done
 }
 
