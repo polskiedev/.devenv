@@ -95,11 +95,13 @@ makefile() {
     echo "" >> "$output_file"
 
     local env_file="$PATH_DEVENV/.env/vars.sh"
+    env_file=$(replace_home_path "$env_file")
     echo "[[ ! -f \"$env_file\" ]] || source \"$env_file\"" >> "$output_file"
     
 	# Loop through each element in the array
 	for element in "${list[@]}"; do
         local source_file="$HOME/$element/.output/sources.sh"
+        source_file=$(replace_home_path "$source_file")
         echo "[[ ! -f \"$source_file\" ]] || source \"$source_file\"" >> "$output_file"
 	done
 }
