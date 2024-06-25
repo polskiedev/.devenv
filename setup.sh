@@ -63,6 +63,13 @@ make_symlinks() {
     create_symlink "$PATH_DEVENV/.output/sources.sh" "$HOME/.devenv.sources.sh"
 }
 
+makedirs() {
+    create_directories "$ENV_TMP_CACHE"
+    create_directories "$ENV_TMP_LIST"
+    create_directories "$ENV_TMP_STATE"
+    create_directories "$ENV_TMP_TODO_READ"
+}
+
 makefile() {
     local script_dir="$PATH_DEVENV"
     local output_dir="$script_dir/.output"
@@ -115,6 +122,11 @@ makefile() {
 
 first_run() {
     initialize
+    deploy
+}
+
+deploy() {
+    makedirs
     makefile
     make_symlinks
 }
