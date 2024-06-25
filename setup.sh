@@ -105,7 +105,7 @@ makefile() {
         echo "Create: $output_dir directory"
     fi
 
-	list=(".dotfiles" ".polskie.sh")
+	list=(".dotfiles" ".polskie.sh" ".devapps")
 
     > "$output_file"  # Clear the file first
 
