@@ -35,7 +35,7 @@ update() {
 make_symlinks() {
     echo "Creating symlinks..."
 	local script_dir="$PATH_DEVENV"
-	local list=(".dotfiles" ".polskie.sh")
+	local list=(".dotfiles" ".polskie.sh" ".devapps")
     local shared_dir=".shared"
     local source_path=""
     local dest_path=""
@@ -49,7 +49,7 @@ make_symlinks() {
 		create_symlink "$package_source" "$HOME/$item"
 
         if [[ -d "$package_source" ]]; then
-            local list2=("docker" ".todo" ".local" ".env" ".output")
+            local list2=("docker" ".todo" ".local" ".env" ".output" ".temp")
             for item2 in "${list2[@]}"; do
                 create_directories "$package_source/$sub_dir"
                 create_symlink "$script_dir/$item2" "$package_source/$sub_dir/$item2"
@@ -62,7 +62,7 @@ make_symlinks() {
 	done
 
     # Share from package to packages
-    local list_copy=(".dotfiles" ".polskie.sh")
+    local list_copy=(".dotfiles" ".polskie.sh" ".devapps")
     local package_shared=(".env" ".output")
     for item3 in "${list[@]}"; do
         for item4 in "${list_copy[@]}"; do

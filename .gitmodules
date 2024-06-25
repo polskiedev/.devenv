@@ -6,3 +6,7 @@
 	path = packages/.polskie.sh
 	url = https://github.com/polskiedev/.polskie.sh.git
 	branch = main
+[submodule "packages/.devapps"]
+	path = packages/.devapps
+	url = https://github.com/polskiedev/.devapps.git
+	branch = main

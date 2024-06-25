@@ -12,11 +12,11 @@
 .shared/
 .tmp/
 .temp/
+.dump/
 
 /vendor/
 node_modules/
 submodules/
-packages/
 
 *.log
 *.tmp
