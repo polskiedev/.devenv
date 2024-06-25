@@ -1,0 +1,47 @@
+if [ -e "$file" ]; then
+  echo "$file exists."
+fi
+
+if [ -f "$file" ]; then
+  echo "$file is a regular file."
+fi
+
+if [ -d "$directory" ]; then
+  echo "$directory is a directory."
+fi
+
+if [ -L "$file" ]; then
+  echo "$file is a symbolic link."
+fi
+
+if [ -r "$file" ]; then
+  echo "$file is readable."
+fi
+
+if [ -w "$file" ]; then
+  echo "$file is writable."
+fi
+
+if [ -x "$file" ]; then
+  echo "$file is executable."
+fi
+
+if [ -s "$file" ]; then
+  echo "$file is not empty."
+fi
+
+if [ -c "$file" ]; then
+  echo "$file is a character special file."
+fi
+
+if [ -b "$file" ]; then
+  echo "$file is a block special file."
+fi
+
+if [ -p "$file" ]; then
+  echo "$file is a named pipe."
+fi
+
+if [ -S "$file" ]; then
+  echo "$file is a socket."
+fi

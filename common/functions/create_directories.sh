@@ -2,6 +2,8 @@
 
 create_directories() {
     local dir_path="$1"
+    echo "create_directories()"
+    echo "Processing: '$dir_path'"
 
     if [ -z "$dir_path" ]; then
         echo "Error: Directory path is required."
