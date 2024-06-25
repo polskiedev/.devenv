@@ -1,0 +1,6 @@
+nano ~/.bashrc
+nano /etc/bash.bashrc
+nano ~/.zshrc
+
+
+[[ ! -f $(realpath "$HOME/.devenv.sources.sh") ]] || source $(realpath "$HOME/.devenv.sources.sh")

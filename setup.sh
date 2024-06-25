@@ -56,8 +56,8 @@ make_symlinks() {
             done
         fi
 
-        if [[ -d "$script_dir/common/functions" ]]; then
-            create_symlink "$script_dir/common/functions" "$package_source/$sub_dir/common"
+        if [[ -d "$script_dir/common" ]]; then
+            create_symlink "$script_dir/common" "$package_source/$sub_dir/common"
         fi
 	done
 
@@ -149,6 +149,60 @@ first_run() {
     deploy
 }
 
+add_to_startup_files() {
+    local list=("$HOME/.bashrc" "/etc/bash.bashrc" "$HOME/.zshrc")
+    local marker="Install script .devenv"
+    local start_marker="# $marker @start"
+    local end_marker="# $marker @end"
+    local install_script=$(cat <<'EOF'
+[[ ! -f $(realpath "$HOME/.devenv.sources.sh") ]] || source $(realpath "$HOME/.devenv.sources.sh")
+EOF
+  )
+    for item in "${list[@]}"; do
+        if [ -f "$item" ]; then
+            # Check if the start marker is not present in the .bashrc
+            if ! grep -q "$start_marker" "$item"; then
+            {
+                echo ""
+                echo "$start_marker"
+                echo "$install_script"
+                echo "$end_marker"
+                echo ""
+            } >> "$item"
+                echo "Install script for .devenv added to $item"
+                if [ "$item" != "$HOME/.zshrc" ]; then
+                    source "$item"
+                fi
+            else
+                echo "Install script for .devenv already exist in $item"
+            fi
+        fi
+    done
+}
+
+remove_to_startup_files() {
+    local list=("$HOME/.bashrc" "/etc/bash.bashrc" "$HOME/.zshrc")
+    local marker="Install script .devenv"
+    local start_marker="# $marker @start"
+    local end_marker="# $marker @end"
+
+    for item in "${list[@]}"; do
+        if [ -f "$item" ]; then
+            # Check if the start marker is present in the .bashrc
+            if grep -q "$start_marker" "$item"; then
+                # Use sed to delete the lines between start and end markers, including the markers
+                sed -i "/$start_marker/,/$end_marker/d" "$item"
+                echo "Install script for .devenv removed from $item"
+                if [ "$item" != "$HOME/.zshrc" ]; then
+                    source "$item"
+                fi
+            else
+                echo "Install script for .devenv not found in $item"
+            fi
+        fi
+    done
+}
+
 deploy() {
     makedirs
     makefile
@@ -190,6 +244,12 @@ else
             ;;
         "first-run")
             first_run
+            ;;
+        "add:onstartup")
+            add_to_startup_files
+            ;;
+        "remove:onstartup")
+            remove_to_startup_files
             ;;
         "docker:start" | "d:s")
             docker_start
