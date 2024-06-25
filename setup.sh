@@ -71,7 +71,9 @@ make_symlinks() {
                 local dest="$script_dir/packages/$item4/$shared_dir/$item3"
                 create_directories "$dest"
                 for package_shared_item in "${package_shared[@]}"; do
-                    create_symlink "$src/$package_shared_item" "$dest/$package_shared_item"
+                    if [ -e "$src/$package_shared_item" ]; then
+                        create_symlink "$src/$package_shared_item" "$dest/$package_shared_item"
+                    fi
                 done
             fi
         done
