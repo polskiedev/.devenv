@@ -1,0 +1,25 @@
+@commands
+--------------------
+cut
+tr
+sed
+awk
+xargs
+
+
+@Notes
+--------------------
+sed (stream editor)
+
+
+@Examples
+--------------------
+awk "{print \$2}" | uniq
+cut -d '|' -f 1 data.txt
+awk -F':' '{ print $1 }' /root/tmp/test.txt | sort
+===
+awk -F'|' '{ print $1 }' /root/polskie.tmp/test.txt | sort
+===
+You get the sum of all the numbers in a column:
+awk '{total += $1} END {print total}' /root/testnum.txt
+
