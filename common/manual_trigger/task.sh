@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Requires:
+# - fzf
+# - jq
+
 MERGED_TASKS=""
 TASKS_FILE1=".vscode/tasks.json"
 TASKS_FILE2="$PATH_POLSKIE_SH/.vscode/tasks.json"
@@ -50,6 +54,10 @@ else
 	# Read tasks from task1.json as base
 	BASE_TASKS=$(jq -c '.tasks' "$TASKS_FILE1")
 	MERGED_TASKS=$BASE_TASKS
+fi
+
+if [ "$(realpath "$TASKS_FILE1")" = "$(realpath "$TASKS_FILE2")" ]; then
+	MERGE_FLAG=false
 fi
 
 if [ "$MERGE_FLAG" = true ]; then

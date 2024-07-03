@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "$HOME/.devenv/common/functions/alias.functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/alias.functions.sh'"
 source "$HOME/.devenv/common/functions/create_directories.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_directories.sh'"
 source "$HOME/.devenv/common/functions/create_symlink.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_symlink.sh'"
 source "$HOME/.devenv/common/functions/extract_test_functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/extract_test_functions.sh'"
