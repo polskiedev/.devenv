@@ -49,7 +49,7 @@ make_symlinks() {
 		create_symlink "$package_source" "$HOME/$item"
 
         if [[ -d "$package_source" ]]; then
-            local list2=("docker" ".todo" ".local" ".env" ".output" ".temp")
+            local list2=("docker" ".todo" ".local" ".env" ".output" ".temp" ".reference")
             for item2 in "${list2[@]}"; do
                 create_directories "$package_source/$sub_dir"
                 create_symlink "$script_dir/$item2" "$package_source/$sub_dir/$item2"
