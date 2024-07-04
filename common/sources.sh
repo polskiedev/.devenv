@@ -1,10 +1,14 @@
 #!/bin/bash
 
 source "$HOME/.devenv/common/functions/alias.functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/alias.functions.sh'"
+source "$HOME/.devenv/common/functions/cd_back.sh" || echo "Failed to source '$HOME/.devenv/common/functions/cd_back.sh'"
 source "$HOME/.devenv/common/functions/create_directories.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_directories.sh'"
 source "$HOME/.devenv/common/functions/create_symlink.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_symlink.sh'"
+source "$HOME/.devenv/common/functions/datetime.sh" || echo "Failed to source '$HOME/.devenv/common/functions/datetime.sh'"
+source "$HOME/.devenv/common/functions/devenv_precmd.sh" || echo "Failed to source '$HOME/.devenv/common/functions/devenv_precmd.sh'"
 source "$HOME/.devenv/common/functions/extract_test_functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/extract_test_functions.sh'"
-source "$HOME/.devenv/common/functions/precmd.sh" || echo "Failed to source '$HOME/.devenv/common/functions/precmd.sh'"
+source "$HOME/.devenv/common/functions/open-autoload-files.sh" || echo "Failed to source '$HOME/.devenv/common/functions/open-autoload-files.sh'"
+source "$HOME/.devenv/common/functions/pathinfo.sh" || echo "Failed to source '$HOME/.devenv/common/functions/pathinfo.sh'"
 source "$HOME/.devenv/common/functions/process_args.sh" || echo "Failed to source '$HOME/.devenv/common/functions/process_args.sh'"
 source "$HOME/.devenv/common/functions/psh.sh" || echo "Failed to source '$HOME/.devenv/common/functions/psh.sh'"
 source "$HOME/.devenv/common/functions/replace_home_path.sh" || echo "Failed to source '$HOME/.devenv/common/functions/replace_home_path.sh'"

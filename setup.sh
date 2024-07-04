@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source .env/vars.sh
-source common/sources.sh
+source "$HOME/.devenv/.env/vars.sh"
+source "$HOME/.devenv/common/sources.sh"
 
 # Define the help function
 help() {

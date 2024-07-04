@@ -1,4 +1,5 @@
 #!/bin/bash
+
 psh() {
     source $(realpath "$HOME/.devenv.sources.sh")
     local command="$1"
@@ -14,5 +15,13 @@ psh() {
         eval "$real_command $@"
     else
         echo "Command not found in the JSON file"
+    fi
+}
+
+psh_text_editor() {
+    if [ -n "$1" ]; then
+        nano "$1"
+    else
+        echo "File not passed."
     fi
 }
