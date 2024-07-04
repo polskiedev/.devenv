@@ -2,6 +2,10 @@
 
 cd_back() {
   local levels="$1"
+  if [ -z "$1" ]; then
+    cd ..
+    return 0
+  fi
 
   # Check if a valid number is provided
   if [[ ! "$levels" =~ ^[0-9]+$ ]] || [[ "$levels" -eq 0 ]]; then
