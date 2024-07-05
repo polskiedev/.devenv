@@ -14,6 +14,8 @@ test_process_args2() {
 
 test_process_args() {
 	log_info "Testing 'process_args' function"
+    declare -A result
+    declare -a remaining_parameters
     local requested_vars=("var1" "var2" "var3" "var4")
     local args=("$@")
 	args=("-var1:\"var1 data\"" \
@@ -22,8 +24,6 @@ test_process_args() {
 		"--var4=\"var4 data\"" \
 		"-a" "-r" "-g" "-s")
 	local expected_remaining_args=("-a" "-r" "-g" "-s")
-    declare -A result
-    declare -a remaining_parameters
 
 	IFS=','; joined_string="${args[*]}"; unset IFS
 	echo "Passed Arguments: ($joined_string)"

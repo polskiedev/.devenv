@@ -13,8 +13,10 @@ psh() {
         echo "Command: $real_command"
         shift
         eval "$real_command $@"
+    elif [[ -z "$command" ]]; then
+        cd "$HOME"
     else
-        echo "Command not found in the JSON file"
+        echo "Command '$command' not found in the JSON file"
     fi
 }
 
