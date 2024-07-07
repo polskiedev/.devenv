@@ -8,4 +8,6 @@ echo "Start: devenv_deploy"
 
 bash "$PATH_POLSKIE_SH/setup.sh" make:file 
 
+devenv_precmd
+
 echo "Finish: devenv_deploy"

@@ -1,13 +1,14 @@
 #!/bin/bash
 
 devenv_precmd() {
-	local file=$(realpath "$HOME/.devenv.sources.sh")
-    if [[ "$1" == "--common" ]]; then
-        shift 
-		file="$HOME/.devenv/common/sources.sh"
-        # echo "Performing alternative command with args: $@"
-    fi
-
+	# local file=$(realpath "$HOME/.devenv.sources.sh")
+	local file=$(realpath "$HOME/.devenv/.output/sources.sh")
+    # if [[ "$1" == "--common" ]]; then
+    #     shift 
+	# 	file="$HOME/.devenv/common/sources.sh"
+    #     # echo "Performing alternative command with args: $@"
+    # fi
+	echo "Running: devenv_precmd()"
 	echo "Loading: $file"
 	source "$file"
 }
