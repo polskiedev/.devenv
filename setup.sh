@@ -90,6 +90,7 @@ makedirs() {
     create_directories "$ENV_TMP_DIR/$ENV_TMP_PREVIOUS_STATE"
     create_directories "$ENV_TMP_DIR/$ENV_TMP_HISTORY"
     create_directories "$ENV_TMP_DIR/$ENV_TMP_OTHERS"
+    create_directories "$ENV_TMP_DIR/$ENV_TMP_SETTINGS"
     create_directories "$ENV_TMP_TODO_READ_DIR"
     create_directories "$ENV_TMP_TODO_REFERENCE"
 }
