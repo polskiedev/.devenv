@@ -14,9 +14,13 @@ ps1_repo_name() {
 }
 
 ps1_repo_branch_name() {
-
 	local branch_name="$(git branch --show-current)"
-	local ticket_no="$(echo "$branch_name" | awk -F/ '{print $NF}' | awk -F- '{print $1"-"$2}')"
+	local ticket_no="$(echo "$branch_name" | awk -F/ '{print $NF}')"
+	local count=$(echo "$ticket_no" | grep -o "-" | wc -l)
+
+	if [ "$count" -gt 2 ]; then
+		ticket_no="$(echo "$ticket_no" | awk -F- '{print $1"-"$2}')"
+	fi
 	echo "$ticket_no"
 }
 
@@ -37,7 +41,7 @@ set_ps1() {
 }
 
 set_ps() {
-	echo "set_ps()"
+	# echo "set_ps()"
 	set_ps1
 }
 
