@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PROMPT_COMMAND="set_ps"
+
 ps1_repo_name() {
 	local repo_name
 	local msg=""
@@ -44,8 +46,6 @@ set_ps() {
 	# echo "set_ps()"
 	set_ps1
 }
-
-PROMPT_COMMAND="set_ps"
 
 add_default_setting_override_ps12() {
 	# It seems this function is not needed anymore, just assign to
