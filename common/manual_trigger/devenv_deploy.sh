@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source .env/vars.sh
+
+source "$HOME/.devenv/.env/vars.sh"
 source "$HOME/.devenv/common/sources.sh" #temp
 # source $(realpath "$HOME/.devenv.sources.sh")
 
