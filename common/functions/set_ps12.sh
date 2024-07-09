@@ -64,7 +64,9 @@ set_ps1() {
 		# PS1_txt+="Ticket No: "
 		PS1_txt+=$ticket_no
 		PS1_txt+=$reset_stye
-		PS1_txt+='✨'
+		# PS1_txt+='✨'
+		PS1_txt+=$(get_random_emoji --ps)
+		PS1_txt+=' '
 	fi
 	PS1_txt+='\$ '
 	PS1="$PS1_txt"

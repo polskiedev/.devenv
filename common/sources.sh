@@ -6,6 +6,7 @@ source "$HOME/.devenv/common/functions/create_directories.sh" || echo "Failed to
 source "$HOME/.devenv/common/functions/create_symlink.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_symlink.sh'"
 source "$HOME/.devenv/common/functions/datetime.sh" || echo "Failed to source '$HOME/.devenv/common/functions/datetime.sh'"
 source "$HOME/.devenv/common/functions/devenv_precmd.sh" || echo "Failed to source '$HOME/.devenv/common/functions/devenv_precmd.sh'"
+source "$HOME/.devenv/common/functions/emoji.sh" || echo "Failed to source '$HOME/.devenv/common/functions/emoji.sh'"
 source "$HOME/.devenv/common/functions/extract_test_functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/extract_test_functions.sh'"
 source "$HOME/.devenv/common/functions/open-autoload-files.sh" || echo "Failed to source '$HOME/.devenv/common/functions/open-autoload-files.sh'"
 source "$HOME/.devenv/common/functions/pathinfo.sh" || echo "Failed to source '$HOME/.devenv/common/functions/pathinfo.sh'"
