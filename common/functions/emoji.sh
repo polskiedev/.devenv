@@ -13,7 +13,11 @@ get_random_emoji() {
 	if [[ -n "$1" ]]; then
 		case "$1" in
 			"--ps") 
-				emojis=( "🔥" "😆" "💀" "👻" "✨" "🧙" "⚛" "🤖" )
+				emojis=(
+                    "🔥" "😆" "💀" "👻" "✨" "🧙" "⚛" "🤖" "🚀" "🎉" "👽"
+                    "☕" "🍺" "🍸" "🍔" "🍕" "🐔" "⏱" "⭐" "⚡" "💩" "🎁"
+                    "🙏" "🍎" "✈️" "🍄" "💻" "⏰" "📷" "📺"
+                )
 				;;
 			*)
 				echo "Invalid parameter for get_random_emoji()" 

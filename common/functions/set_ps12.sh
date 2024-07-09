@@ -49,11 +49,15 @@ set_ps1() {
 
 	local color1='\[\e[38;5;69m\]'
 	local color2='\[\e[38;5;76m\]'
+	local color3='\[\e[38;5;213m\]'
 	local reset_stye="\[\e[0m\]"
 
 	PS1_txt='\u@\h:\w'
-
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+		PS1_txt+=' ⚡ '
+		PS1_txt+=$color3
+		PS1_txt+=$branch
+		PS1_txt+=$reset_stye
 		PS1_txt+='\n'
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
