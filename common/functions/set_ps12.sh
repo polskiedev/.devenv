@@ -67,24 +67,26 @@ set_ps1() {
 		PS1_txt+=$branch
 		PS1_txt+=$reset_stye
 		PS1_txt+='\n'
+		PS1_txt+='⏵ '
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
 		# PS1_txt+=' 📦 '
-		PS1_txt+='⏵ '
 		PS1_txt+=$repository
 		PS1_txt+=$reset_stye
-		PS1_txt+=' ⭐ '
+		# PS1_txt+=' ⭐ '
+		PS1_txt+='⏵ '
 		PS1_txt+=$color2
 		# PS1_txt+="Ticket No: "
 		PS1_txt+=$ticket_no
 		PS1_txt+=$reset_stye
 		# PS1_txt+='✨'
+		PS1_txt+=' ⏵ '
 		PS1_txt+=$(get_random_emoji --ps)
 		PS1_txt+=' '
+		PS1_txt+='\$⏵ '
 	else
-		PS1_txt+='\u@\h:\w'
+		PS1_txt+='\u@\h:\w\$ '
 	fi
-	PS1_txt+='\$ '
 	PS1="$PS1_txt"
 }
 
