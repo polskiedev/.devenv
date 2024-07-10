@@ -40,6 +40,8 @@ set_ps1() {
 	local repository="${gitinfo["repository"]}"
 	local branch="${gitinfo["branch"]}"
 	local ticket_no="${gitinfo["ticket_no"]}"
+	local tmp="📂📝📆📦💻💾⭐"
+	tmp="😄 😃 😀 😍 😘 😚 😗 😜 😝 😙 😛 😳 😊 😁 😂 😅 😆 😋 😷 😎 😇🥰"
 
 	cleanup_repository_git_info
 
@@ -52,8 +54,14 @@ set_ps1() {
 	local color3='\[\e[38;5;213m\]'
 	local reset_stye="\[\e[0m\]"
 
-	PS1_txt='\u@\h:\w'
+	PS1_txt=''
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+		PS1_txt+='👷 '
+		PS1_txt+='\u'
+		PS1_txt+=' 💻 '
+		PS1_txt+='\h'
+		PS1_txt+=' 📂 '
+		PS1_txt+='\w'
 		PS1_txt+=' ⚡ '
 		PS1_txt+=$color3
 		PS1_txt+=$branch
@@ -61,9 +69,11 @@ set_ps1() {
 		PS1_txt+='\n'
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
+		# PS1_txt+=' 📦 '
+		PS1_txt+='⏵ '
 		PS1_txt+=$repository
 		PS1_txt+=$reset_stye
-		PS1_txt+='@'
+		PS1_txt+=' ⭐ '
 		PS1_txt+=$color2
 		# PS1_txt+="Ticket No: "
 		PS1_txt+=$ticket_no
@@ -71,6 +81,8 @@ set_ps1() {
 		# PS1_txt+='✨'
 		PS1_txt+=$(get_random_emoji --ps)
 		PS1_txt+=' '
+	else
+		PS1_txt+='\u@\h:\w'
 	fi
 	PS1_txt+='\$ '
 	PS1="$PS1_txt"
