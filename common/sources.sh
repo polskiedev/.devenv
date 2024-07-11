@@ -15,3 +15,4 @@ source "$HOME/.devenv/common/functions/process_args.sh" || echo "Failed to sourc
 source "$HOME/.devenv/common/functions/psh.sh" || echo "Failed to source '$HOME/.devenv/common/functions/psh.sh'"
 source "$HOME/.devenv/common/functions/replace_home_path.sh" || echo "Failed to source '$HOME/.devenv/common/functions/replace_home_path.sh'"
 source "$HOME/.devenv/common/functions/set_ps12.sh" || echo "Failed to source '$HOME/.devenv/common/functions/set_ps12.sh'"
+source "$HOME/.devenv/common/functions/spinner.sh" || echo "Failed to source '$HOME/.devenv/common/functions/spinner.sh'"
