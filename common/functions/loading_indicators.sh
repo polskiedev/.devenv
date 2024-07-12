@@ -102,15 +102,26 @@ random_loading_indicator() {
 
   if [ -n "$1" ]; then
     type="$1"
+    shift
   fi
 
   case "$type" in
     "1")
-      spinner 10 10
+      spinner "$@"
       ;;
     "2")
+      local start_ctr=0
       local total=100
-      for i in $(seq 0 $total); do
+
+      if [ -n "$1" ]; then
+        start_ctr="$1"
+      fi
+
+      if [ -n "$2" ]; then
+        total="$2"
+      fi
+
+      for i in $(seq $start_ctr $total); do
         progressbar $i $total
         sleep 0.1
       done
