@@ -83,6 +83,7 @@ progressbar() {
 
   # Print the progress bar
   printf "\r[%s%s] %d%%" "$progress_bar" "$remaining_bar" "$(( (progress * 100) / max ))"
+  echo ""
 }
 
 random_number() {
