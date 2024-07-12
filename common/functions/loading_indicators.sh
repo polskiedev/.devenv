@@ -83,7 +83,6 @@ progressbar() {
 
   # Print the progress bar
   printf "\r[%s%s] %d%%" "$progress_bar" "$remaining_bar" "$(( (progress * 100) / max ))"
-  echo ""
 }
 
 random_number() {
@@ -115,7 +114,7 @@ random_loading_indicator() {
         progressbar $i $total
         sleep 0.1
       done
-      progressbar $i $total
+      echo ""
       ;;
     *)
       echo "Invalid parameter."
