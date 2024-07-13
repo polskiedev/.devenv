@@ -3,3 +3,4 @@
 / add validation in git tools when json config is not yet configured
 cleanup file notes with zero bytes
 / # Todo: Bug in delete
+migrate gmerge from wsl-bash-tools (previous project)

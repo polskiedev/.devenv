@@ -49,13 +49,25 @@ set_ps1() {
     # echo "Branch: ${gitinfo["branch"]}"
     # echo "Ticket No: ${gitinfo["ticket_no"]}"
 
+	# ######################################
+	# Colors here
+	# ######################################
+	
 	local color1='\[\e[38;5;69m\]'
 	local color2='\[\e[38;5;76m\]'
 	local color3='\[\e[38;5;213m\]'
 	local reset_stye="\[\e[0m\]"
+	# Define separators and edges
+	local LEFT_EDGE=""
+	local RIGHT_EDGE=""
+	local SEPARATOR=">"
 
 	PS1_txt=''
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+		# PS1_txt+=$FG_BLUE
+		# PS1_txt+=$LEFT_EDGE
+		# PS1_txt+=$reset_stye
+		# ##################
 		PS1_txt+='👷 '
 		PS1_txt+='\u'
 		PS1_txt+=' 💻 '
@@ -65,8 +77,13 @@ set_ps1() {
 		PS1_txt+=' ⚡ '
 		PS1_txt+=$color3
 		PS1_txt+=$branch
-		PS1_txt+=$reset_stye
+		# ##################
+		# PS1_txt+=$FG_BLUE
+		# PS1_txt+=$RIGHT_EDGE
+		# PS1_txt+=$reset_stye
+		# ###############################
 		PS1_txt+='\n'
+		PS1_txt+=$reset_stye
 		PS1_txt+='⏵ '
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
@@ -84,6 +101,7 @@ set_ps1() {
 		PS1_txt+=$(get_random_emoji --ps)
 		PS1_txt+=' '
 		PS1_txt+='\$⏵ '
+		PS1_txt+=$reset_stye
 	else
 		PS1_txt+='\u@\h:\w\$ '
 	fi
