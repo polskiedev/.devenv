@@ -1,2 +1,5 @@
-fix alias upon redeploy, this is also issue running test using aliases> hero?
-fix docker setup it seems not working automatically after run
+/ fix alias upon redeploy, this is also issue running test using aliases> hero?
+/ fix docker setup it seems not working automatically after run
+/ add validation in git tools when json config is not yet configured
+cleanup file notes with zero bytes
+/ # Todo: Bug in delete
