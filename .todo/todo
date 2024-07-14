@@ -4,3 +4,6 @@
 cleanup file notes with zero bytes
 / # Todo: Bug in delete
 migrate gmerge from wsl-bash-tools (previous project)
+/ add branch creation for git
+
+# Todo: Not currently validating ticket prefix @ commit_override_command_git
