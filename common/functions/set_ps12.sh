@@ -38,12 +38,14 @@ repository_git_info() {
 
 	# Total changes
 	local total_changes=$((modified_count + staged_count + untracked_count))
+	local changes_text="{m:${modified_count},s:${staged_count},u:${untracked_count}}"
 
+	gitinfo["total_changes"]=""
+	gitinfo["changes_text"]=""
 	# Check if there are any changes
 	if [[ $total_changes -gt 0 ]]; then
 		gitinfo["total_changes"]="$total_changes"
-	else
-		gitinfo["total_changes"]=""
+		gitinfo["changes_text"]="$changes_text"
 	fi
 
     gitinfo["repository"]="$repo_name"
@@ -88,6 +90,7 @@ set_ps1() {
 	local branch="${gitinfo["branch"]}"
 	local ticket_no="${gitinfo["ticket_no"]}"
 	local total_changes="${gitinfo["total_changes"]}"
+	local changes_text="${gitinfo["changes_text"]}"
 
 	cleanup_repository_git_info
 
@@ -125,7 +128,7 @@ set_ps1() {
 		PS1_txt+=$branch
 		# ##################
 		if [ "${total_changes}" -gt 0 ]; then
-			PS1_txt+=" 🚀 :${total_changes}"
+			PS1_txt+=" 🚀 ${changes_text}"
 		fi
 		# ##################
 		# PS1_txt+=$FG_BLUE
