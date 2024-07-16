@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Author: Polskie
+# Description: Set custom prompts for devs
+
 PROMPT_COMMAND="set_ps"
 
 repository_git_info() {
@@ -21,6 +24,28 @@ repository_git_info() {
         ticket_no="$(echo "$ticket_no" | awk -F- '{print $1"-"$2}')"
     fi
 
+	# Check for modified files
+	local modified_count=$(git diff --name-only | wc -l)
+
+	# Check for staged files
+	local staged_count=$(git diff --cached --name-only | wc -l)
+
+	# Check for untracked files
+	local untracked_count=$(git ls-files --others --exclude-standard | wc -l)
+
+	# Combine all results
+	local changes="${modified_or_staged}${staged}${untracked}"
+
+	# Total changes
+	local total_changes=$((modified_count + staged_count + untracked_count))
+
+	# Check if there are any changes
+	if [[ $total_changes -gt 0 ]]; then
+		gitinfo["total_changes"]="$total_changes"
+	else
+		gitinfo["total_changes"]=""
+	fi
+
     gitinfo["repository"]="$repo_name"
     gitinfo["branch"]="$branch_name"
     gitinfo["ticket_no"]="$ticket_no"
@@ -29,6 +54,28 @@ repository_git_info() {
 
 cleanup_repository_git_info() {
 	unset gitinfo
+}
+
+get_random_emoji_ps1() {
+    if type "get_random_emoji" 2>/dev/null | grep -q 'function'; then
+		echo $(get_random_emoji --ps)
+		return 0
+    fi
+
+	local emojis=()
+	local list_emoji="📂📝📆📦💻💾⭐"
+	list_emoji="😄😃😀😍😘😚😗😜😝😙😛😳😊😁😂😅😆😋😷😎😇🥰"
+
+	# Use grep to match each emoji and store in the array
+	while IFS= read -r -n1 char; do
+		# Append the character to the array
+		emojis+=("$char")
+	done <<< "$list_emoji"
+
+    local random_index=$(( RANDOM % ${#emojis[@]} ))
+    emoji="${emojis[$random_index]}"
+
+	echo "$emoji"
 }
 
 set_ps1() {
@@ -40,8 +87,7 @@ set_ps1() {
 	local repository="${gitinfo["repository"]}"
 	local branch="${gitinfo["branch"]}"
 	local ticket_no="${gitinfo["ticket_no"]}"
-	local tmp="📂📝📆📦💻💾⭐"
-	tmp="😄 😃 😀 😍 😘 😚 😗 😜 😝 😙 😛 😳 😊 😁 😂 😅 😆 😋 😷 😎 😇🥰"
+	local total_changes="${gitinfo["total_changes"]}"
 
 	cleanup_repository_git_info
 
@@ -56,7 +102,7 @@ set_ps1() {
 	local color1='\[\e[38;5;69m\]'
 	local color2='\[\e[38;5;76m\]'
 	local color3='\[\e[38;5;213m\]'
-	local reset_stye="\[\e[0m\]"
+	local reset_style="\[\e[0m\]"
 	# Define separators and edges
 	local LEFT_EDGE=""
 	local RIGHT_EDGE=""
@@ -66,7 +112,7 @@ set_ps1() {
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
 		# PS1_txt+=$FG_BLUE
 		# PS1_txt+=$LEFT_EDGE
-		# PS1_txt+=$reset_stye
+		# PS1_txt+=$reset_style
 		# ##################
 		PS1_txt+='👷 '
 		PS1_txt+='\u'
@@ -78,30 +124,34 @@ set_ps1() {
 		PS1_txt+=$color3
 		PS1_txt+=$branch
 		# ##################
+		if [ "${total_changes}" -gt 0 ]; then
+			PS1_txt+=" 📝 *"
+		fi
+		# ##################
 		# PS1_txt+=$FG_BLUE
 		# PS1_txt+=$RIGHT_EDGE
-		# PS1_txt+=$reset_stye
+		# PS1_txt+=$reset_style
 		# ###############################
 		PS1_txt+='\n'
-		PS1_txt+=$reset_stye
+		PS1_txt+=$reset_style
 		PS1_txt+='⏵ '
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
 		# PS1_txt+=' 📦 '
 		PS1_txt+=$repository
-		PS1_txt+=$reset_stye
+		PS1_txt+=$reset_style
 		# PS1_txt+=' ⭐ '
 		PS1_txt+='⏵ '
 		PS1_txt+=$color2
 		# PS1_txt+="Ticket No: "
 		PS1_txt+=$ticket_no
-		PS1_txt+=$reset_stye
+		PS1_txt+=$reset_style
 		# PS1_txt+='✨'
 		PS1_txt+=' ⏵ '
-		PS1_txt+=$(get_random_emoji --ps)
+		PS1_txt+=$(get_random_emoji_ps1)
 		PS1_txt+=' '
 		PS1_txt+='\$⏵ '
-		PS1_txt+=$reset_stye
+		PS1_txt+=$reset_style
 	else
 		PS1_txt+='\u@\h:\w\$ '
 	fi
