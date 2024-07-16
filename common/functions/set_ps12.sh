@@ -65,8 +65,8 @@ get_random_emoji_ps1() {
     fi
 
 	local emojis=()
-	local list_emoji="📂📝📆📦💻💾⭐"
-	list_emoji="😄😃😀😍😘😚😗😜😝😙😛😳😊😁😂😅😆😋😷😎😇🥰"
+	# local list_emoji="📂📝📆📦💻💾⭐"
+	local list_emoji="😄😃😀😍😘😚😗😜😝😙😛😳😊😁😂😅😆😋😷😎😇🥰"
 
 	# Use grep to match each emoji and store in the array
 	while IFS= read -r -n1 char; do
@@ -77,7 +77,7 @@ get_random_emoji_ps1() {
     local random_index=$(( RANDOM % ${#emojis[@]} ))
     emoji="${emojis[$random_index]}"
 
-	echo "$emoji"
+	echo "emoji"
 }
 
 set_ps1() {
@@ -127,7 +127,7 @@ set_ps1() {
 		PS1_txt+=$color3
 		PS1_txt+=$branch
 		# ##################
-		if [ "${total_changes}" -gt 0 ]; then
+		if [ -n "${total_changes}" ] && [ "${total_changes}" -gt 0 ]; then
 			PS1_txt+=" 🚀 ${changes_text}"
 		fi
 		# ##################
