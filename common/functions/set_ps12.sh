@@ -125,7 +125,7 @@ set_ps1() {
 		PS1_txt+=$branch
 		# ##################
 		if [ "${total_changes}" -gt 0 ]; then
-			PS1_txt+=" 📝 *"
+			PS1_txt+=" 🚀 :${total_changes}"
 		fi
 		# ##################
 		# PS1_txt+=$FG_BLUE
