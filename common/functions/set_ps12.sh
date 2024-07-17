@@ -38,16 +38,18 @@ repository_git_info() {
 
 	# Total changes
 	local total_changes=$((modified_count + staged_count + untracked_count))
-	local changes_text="{m:${modified_count},s:${staged_count},u:${untracked_count}}"
+	local changes_text="✔️"
 
 	gitinfo["total_changes"]=""
-	gitinfo["changes_text"]=""
+
 	# Check if there are any changes
 	if [[ $total_changes -gt 0 ]]; then
+		changes_text="{📝:${modified_count},🧩:${staged_count},🤷:${untracked_count}}"
 		gitinfo["total_changes"]="$total_changes"
-		gitinfo["changes_text"]="$changes_text"
 	fi
 
+	gitinfo["changes_text"]="$changes_text"
+	
     gitinfo["repository"]="$repo_name"
     gitinfo["branch"]="$branch_name"
     gitinfo["ticket_no"]="$ticket_no"
@@ -65,7 +67,7 @@ get_random_emoji_ps1() {
     fi
 
 	local emojis=()
-	# local list_emoji="📂📝📆📦💻💾⭐"
+	# local list_emoji="📂📝📆📦💻💾⭐⚡🚀"
 	local list_emoji="😄😃😀😍😘😚😗😜😝😙😛😳😊😁😂😅😆😋😷😎😇🥰"
 
 	# Use grep to match each emoji and store in the array
@@ -128,12 +130,13 @@ set_ps1() {
 		PS1_txt+='\w'
 		PS1_txt+=' 🧭 '
 		PS1_txt+=$date_time_text
-		PS1_txt+=' ⚡ '
+		PS1_txt+=' 🌱 '
 		PS1_txt+=$color3
 		PS1_txt+=$branch
+		PS1_txt+=$reset_style
 		# ##################
-		if [ -n "${total_changes}" ] && [ "${total_changes}" -gt 0 ]; then
-			PS1_txt+=" 🚀 ${changes_text}"
+		if [ -n "${changes_text}" ]; then
+			PS1_txt+=" ${changes_text}"
 		fi
 
 		# ##################
