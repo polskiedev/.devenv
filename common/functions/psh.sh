@@ -9,7 +9,7 @@ psh() {
     local tmp_file="$ENV_TMP_DIR/$ENV_TMP_SETTINGS/merged_commands.json"
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         local other_working_directory=$(git rev-parse --show-toplevel)
-		other_working_directory+="/${OTHER_WORKING_DIRECTORY_POLSKIE_SH}/config"
+		other_working_directory+="/${ENV_THIRD_PARTY_WORKING_DIRECTORY}/config"
 
         local other_commands="$other_working_directory/commands.json"
         # echo "other_command: $other_command"

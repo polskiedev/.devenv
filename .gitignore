@@ -6,7 +6,7 @@
 .example/
 .cache/
 .symlinks/
-.env/
+.env.local/
 .output/
 .tests/
 .shared/
