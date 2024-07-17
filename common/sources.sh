@@ -9,6 +9,7 @@ source "$HOME/.devenv/common/functions/devenv_precmd.sh" || echo "Failed to sour
 source "$HOME/.devenv/common/functions/emoji.sh" || echo "Failed to source '$HOME/.devenv/common/functions/emoji.sh'"
 source "$HOME/.devenv/common/functions/extract_test_functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/extract_test_functions.sh'"
 source "$HOME/.devenv/common/functions/json_file.sh" || echo "Failed to source '$HOME/.devenv/common/functions/json_file.sh'"
+source "$HOME/.devenv/common/functions/keybindings.sh" || echo "Failed to source '$HOME/.devenv/common/functions/keybindings.sh'"
 source "$HOME/.devenv/common/functions/loading_indicators.sh" || echo "Failed to source '$HOME/.devenv/common/functions/loading_indicators.sh'"
 source "$HOME/.devenv/common/functions/open-autoload-files.sh" || echo "Failed to source '$HOME/.devenv/common/functions/open-autoload-files.sh'"
 source "$HOME/.devenv/common/functions/pathinfo.sh" || echo "Failed to source '$HOME/.devenv/common/functions/pathinfo.sh'"
