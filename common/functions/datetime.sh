@@ -20,10 +20,11 @@ get_datetime() {
 			"--human") datetime_format="%Y-%m-%d_%I%M%p" ;;
 			"--date") datetime_format="%Y-%m-%d" ;;
 			"--backup") datetime_format="%Y%m%d_%I%M%p" ;;
+			"--pretty") datetime_format="%a, %d %b '%y @ %I:%M%p" ;;
 		esac
 
 		case "$1" in
-			"--human" | "--date")
+			"--human" | "--date" | "--pretty")
 				date_args+=("+$datetime_format")
 				timestamp=$(date "${date_args[@]}")
 				;;

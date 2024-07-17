@@ -97,7 +97,10 @@ set_ps1() {
     # echo "Repository: ${gitinfo["repository"]}"
     # echo "Branch: ${gitinfo["branch"]}"
     # echo "Ticket No: ${gitinfo["ticket_no"]}"
-
+	local date_time_text=$(date +"%Y-%m-%d %H:%M:%S")
+    if type "get_datetime" 2>/dev/null | grep -q 'function'; then
+		date_time_text=$(get_datetime --pretty)
+    fi
 	# ######################################
 	# Colors here
 	# ######################################
@@ -123,6 +126,8 @@ set_ps1() {
 		PS1_txt+='\h'
 		PS1_txt+=' 📂 '
 		PS1_txt+='\w'
+		PS1_txt+=' 🧭 '
+		PS1_txt+=$date_time_text
 		PS1_txt+=' ⚡ '
 		PS1_txt+=$color3
 		PS1_txt+=$branch
@@ -130,6 +135,7 @@ set_ps1() {
 		if [ -n "${total_changes}" ] && [ "${total_changes}" -gt 0 ]; then
 			PS1_txt+=" 🚀 ${changes_text}"
 		fi
+
 		# ##################
 		# PS1_txt+=$FG_BLUE
 		# PS1_txt+=$RIGHT_EDGE
