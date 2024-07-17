@@ -206,3 +206,19 @@ get_json_data() {
         echo "File not found: '$file'"
     fi
 }
+
+merge_json_file() {
+    echo "merge_json_file()"
+    echo "This is a test function for now"
+    return
+    local working_directory="$PATH_POLSKIE_SH/.temp/merge_json"
+    local file1="$working_directory/file1.json"
+    local file2="$working_directory/file2.json"
+    local tmp_file="$working_directory/temp.json"
+
+    json1=$(<"$file1")
+    json2=$(<"$file2")
+
+    merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
+    echo "$merged_json"
+}
