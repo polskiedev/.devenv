@@ -22,12 +22,11 @@ submodules/
 *.tmp
 *.bak
 
-*.ignore
+# *.ignore
 *.private
 *.secure
 *.local
-*.env
+# *.env
 
-.env
 .cache
 
