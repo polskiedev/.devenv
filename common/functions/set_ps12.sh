@@ -101,7 +101,7 @@ set_ps1() {
     # echo "Ticket No: ${gitinfo["ticket_no"]}"
 	local date_time_text=$(date +"%Y-%m-%d %H:%M:%S")
     if type "get_datetime" 2>/dev/null | grep -q 'function'; then
-		date_time_text=" 🧭 $(get_datetime --pretty-compressed)"
+		date_time_text=" $(get_datetime --pretty-with-icon)"
     fi
 	# ######################################
 	# Colors here
@@ -126,13 +126,15 @@ set_ps1() {
 		PS1_txt+='\u'
 		PS1_txt+=' 💻 '
 		PS1_txt+='\h'
-		PS1_txt+=' 📂 '
-		PS1_txt+='\w'
 		PS1_txt+=$date_time_text
+		PS1_txt+='\n'
+		PS1_txt+='📂 '
+		PS1_txt+='\w'
 		PS1_txt+=' 🌱 '
 		PS1_txt+=$color3
 		PS1_txt+=$branch
 		PS1_txt+=$reset_style
+
 		# ##################
 		if [ -n "${changes_text}" ]; then
 			PS1_txt+=" ${changes_text}"
