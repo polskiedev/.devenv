@@ -2,6 +2,7 @@
 
 source "$HOME/.devenv/common/functions/alias.functions.sh" || echo "Failed to source '$HOME/.devenv/common/functions/alias.functions.sh'"
 source "$HOME/.devenv/common/functions/cd_back.sh" || echo "Failed to source '$HOME/.devenv/common/functions/cd_back.sh'"
+source "$HOME/.devenv/common/functions/colors.sh" || echo "Failed to source '$HOME/.devenv/common/functions/colors.sh'"
 source "$HOME/.devenv/common/functions/create_directories.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_directories.sh'"
 source "$HOME/.devenv/common/functions/create_symlink.sh" || echo "Failed to source '$HOME/.devenv/common/functions/create_symlink.sh'"
 source "$HOME/.devenv/common/functions/datetime.sh" || echo "Failed to source '$HOME/.devenv/common/functions/datetime.sh'"

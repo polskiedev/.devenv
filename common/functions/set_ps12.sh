@@ -116,12 +116,15 @@ set_ps1() {
 	local RIGHT_EDGE=""
 	local SEPARATOR=">"
 
-	PS1_txt=''
+	local PS1_txt_default='\u@\h:\w\$ '
+	PS1_txt="$PS1_txt_default"
+
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
 		# PS1_txt+=$FG_BLUE
 		# PS1_txt+=$LEFT_EDGE
 		# PS1_txt+=$reset_style
 		# ##################
+		PS1_txt=''
 		PS1_txt+='👷 '
 		PS1_txt+='\u'
 		PS1_txt+=' 💻 '
@@ -165,9 +168,12 @@ set_ps1() {
 		PS1_txt+=' '
 		PS1_txt+='\$⏵ '
 		PS1_txt+=$reset_style
-	else
-		PS1_txt+='\u@\h:\w\$ '
 	fi
+
+	if [[ "$HOME" == "$PWD" ]]; then
+		PS1_txt='\u@\h:\w\$🏠: '
+	fi
+
 	PS1="$PS1_txt"
 }
 
