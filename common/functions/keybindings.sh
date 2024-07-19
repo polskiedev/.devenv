@@ -13,11 +13,19 @@ bind_command_alt_r() {
 }
 
 bind_command_ctrl_n() {
-	psh note:modify
+	psh note:modify --group:"daily-scrum"
+}
+
+bind_command_ctrl_nn() {
+	psh note:modify --group:"ticket-notes"
 }
 
 bind_command_ctrl_t() {
-	psh note:tomorrow
+	psh note:tomorrow --group:"daily-scrum"
+}
+
+bind_command_ctrl_tt() {
+	psh note:tomorrow --group:"ticket-notes"
 }
 
 bind_command_ctrl_y() {
@@ -39,4 +47,12 @@ fi
 
 if ! bind -p | grep -q '"\C-y"'; then
     bind -x '"\C-y":"bind_command_ctrl_y"'
+fi
+
+if ! bind -p | grep -q '"\C-n\C-n"'; then
+    bind -x '"\C-n\C-n":bind_command_ctrl_nn'
+fi
+
+if ! bind -p | grep -q '"\C-t\C-t"'; then
+    bind -x '"\C-t\C-t":bind_command_ctrl_tt'
 fi
