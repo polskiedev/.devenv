@@ -148,18 +148,20 @@ set_ps1() {
 		# PS1_txt+=$RIGHT_EDGE
 		# PS1_txt+=$reset_style
 		# ###############################
+
 		PS1_txt+='\n'
 		PS1_txt+=$reset_style
-		PS1_txt+='⏵ '
+		# PS1_txt+='⏵'
 		PS1_txt+=$color1
 		# PS1_txt+="Repository: "
-		# PS1_txt+=' 📦 '
+		PS1_txt+='📦 '
 		PS1_txt+=$repository
 		PS1_txt+=$reset_style
 		# PS1_txt+=' ⭐ '
-		PS1_txt+='⏵ '
+		# PS1_txt+='⏵'
 		PS1_txt+=$color2
 		# PS1_txt+="Ticket No: "
+		PS1_txt+=' 🏷️  '
 		PS1_txt+=$ticket_no
 		PS1_txt+=$reset_style
 		# PS1_txt+='✨'
