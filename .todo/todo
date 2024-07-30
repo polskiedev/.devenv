@@ -1,10 +1,12 @@
+file listing, like notes but manually
+merging commands in devenv folder maybe rule prefix to "commands-[app].json" ex: "commands-git.json"
+cleanup file notes with zero bytes
+helper command list? Per group?
 / fix alias upon redeploy, this is also issue running test using aliases> hero?
 / fix docker setup it seems not working automatically after run
 / add validation in git tools when json config is not yet configured
-cleanup file notes with zero bytes
 / # Todo: Bug in delete
 migrate gmerge from wsl-bash-tools (previous project)
 / add branch creation for git
-merging commands if folder exists in repository .devenv/config/commands.json
-
-# Todo: Not currently validating ticket prefix @ commit_override_command_git
+/ merging commands if folder exists in repository .devenv/config/commands.json
+/ # Todo: Not currently validating ticket prefix @ commit_override_command_git

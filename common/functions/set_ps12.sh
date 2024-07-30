@@ -140,7 +140,9 @@ set_ps1() {
 
 		# ##################
 		if [ -n "${changes_text}" ]; then
-			PS1_txt+=" ${changes_text}"
+			if [ "${changes_text}" != "✔️" ]; then
+				PS1_txt+=" ${changes_text}"
+			fi
 		fi
 
 		# ##################
