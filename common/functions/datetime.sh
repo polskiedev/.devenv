@@ -1,7 +1,8 @@
 #!/bin/bash
 
 get_datetime() {
-	local datetime_format="%Y-%m-%d %H:%M:%S"
+	local default_datetime_format="%Y-%m-%d %H:%M:%S"
+	local datetime_format="$default_datetime_format"
 	local timestamp=$(date +"$datetime_format")
 	local date_args=()
 
@@ -23,10 +24,11 @@ get_datetime() {
 			"--pretty") datetime_format="%a, %d %b '%y @ %I:%M%p" ;;
 			"--pretty-compressed") datetime_format="%a,%d%b'%y@%I:%M%p" ;;
 			"--pretty-with-icon") datetime_format="📆 %a, %d %b '%y 🧭 %I:%M%p" ;;
+			"--mysql") datetime_format="$default_datetime_format" ;;
 		esac
 
 		case "$1" in
-			"--human" | "--date" | "--pretty" | "--pretty-with-icon" | "--pretty-compressed")
+			"--human" | "--date" | "--pretty" | "--pretty-with-icon" | "--pretty-compressed" | "--mysql")
 				date_args+=("+$datetime_format")
 				timestamp=$(date "${date_args[@]}")
 				;;
