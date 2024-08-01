@@ -9,6 +9,10 @@ create_symlink() {
     local source_path="$1"
     local dest_path="$2"
 
+    if [ "$dest_path" = "." ] && [ -e "$source_path" ]; then
+        dest_path="$PWD/$(basename "$source_path")"
+    fi
+
     echo "RUN: create_symlink('$source_path', '$dest_path')"
     # Check if the source exists
     if [ ! -e "$source_path" ]; then
