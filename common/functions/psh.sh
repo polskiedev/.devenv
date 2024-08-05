@@ -3,18 +3,30 @@
 psh() {
     source $(realpath "$HOME/.devenv.sources.sh")
     local command="$1"
-    local json_file="$PATH_POLSKIE_SH/config/commands.json"
+    local config_file="commands.json"
+    local json_file="$PATH_POLSKIE_SH/config/$config_file"
 
     local merged_json
     local tmp_file="$ENV_TMP_DIR/$ENV_TMP_SETTINGS/merged_commands.json"
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         local other_working_directory=$(git rev-parse --show-toplevel)
+        local repo_name="$(basename "$other_working_directory")"
 		other_working_directory+="/${ENV_THIRD_PARTY_WORKING_DIRECTORY}/config"
 
-        local other_commands="$other_working_directory/commands.json"
+        local other_commands=""
+        local other_commands1="$other_working_directory/$config_file"
+        local other_commands2="$other_working_directory/$config_file/${repo_name}.json"
         # echo "other_command: $other_command"
+
+        if [ -f "$other_commands1" ]; then
+            other_commands="$other_commands1"
+        fi
+
+        if [ -f "$other_commands2" ]; then
+            other_commands="$other_commands2"
+        fi
         
-        if [ -f "$other_commands" ]; then
+        if [ -n "$other_commands" ]; then
             json1=$(<"$json_file")
             json2=$(<"$other_commands")
             merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
@@ -24,6 +36,8 @@ psh() {
             json_file="$tmp_file"
         else
             echo "File '$other_commands' not found. Skip merging commands."
+            echo "$other_commands1"
+            echo "$other_commands2"
         fi
 	fi
 
