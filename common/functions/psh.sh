@@ -8,6 +8,10 @@ psh() {
 
     local merged_json
     local tmp_file="$ENV_TMP_DIR/$ENV_TMP_SETTINGS/merged_commands.json"
+
+    > "$tmp_file"
+
+    json_file_processed=false
     if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         local other_working_directory=$(git rev-parse --show-toplevel)
         local repo_name="$(basename "$other_working_directory")"
@@ -34,12 +38,30 @@ psh() {
             echo "$merged_json" > "$tmp_file"
             echo "merged_commands: $tmp_file"
             json_file="$tmp_file"
+            json_file_processed=true
         else
             echo "File '$other_commands' not found. Skip merging commands."
             echo "$other_commands1"
             echo "$other_commands2"
         fi
 	fi
+
+    local json_file_local="$PATH_POLSKIE_SH/.local/config/$config_file"
+    if [ -f "$json_file_local" ]; then
+        echo "File '$json_file_local' found. Merging commands."
+        json1=$(<"$tmp_file")
+        json2=$(<"$json_file_local")
+
+        if [[ "$json_file_processed" = false ]]; then
+            json1=$(<"$json_file")
+        fi
+
+        merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
+        
+        echo "$merged_json" > "$tmp_file"
+        echo "merged_commands: $tmp_file"
+        json_file="$tmp_file"
+    fi
 
     local real_command=$(jq -r --arg cmd "$command" '.commands[] | select(.command == $cmd) | .alias' "$json_file")
     local real_alt_command=$(jq -r --arg cmd "$command" '.commands[] | select(.alt_command == $cmd) | .alias' "$json_file")
