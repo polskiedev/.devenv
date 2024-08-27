@@ -8,6 +8,7 @@ psh() {
 
     local merged_json
     local tmp_file="$ENV_TMP_DIR/$ENV_TMP_SETTINGS/merged_commands.json"
+    local tmp_file2="$ENV_TMP_DIR/$ENV_TMP_SETTINGS/merged_commands3.json"
 
     > "$tmp_file"
 
@@ -20,48 +21,36 @@ psh() {
         local other_commands=""
         local other_commands1="$other_working_directory/$config_file"
         local other_commands2="$other_working_directory/$config_file/${repo_name}.json"
-        # echo "other_command: $other_command"
+        local other_commands3="$other_working_directory/$config_file/repositories.json"
+        local json_file_local="$PATH_POLSKIE_SH/.local/config/$config_file"
 
-        if [ -f "$other_commands1" ]; then
-            other_commands="$other_commands1"
-        fi
+        jq_inputs=()
 
-        if [ -f "$other_commands2" ]; then
-            other_commands="$other_commands2"
+        [[ -f "$json_file" ]] && jq_inputs+=("$(cat "$json_file")") || echo "File '$json_file' not found. Skip merging commands."
+        [[ -f "$other_commands1" ]] && jq_inputs+=("$(cat "$other_commands1")") || echo "File '$other_commands1' not found. Skip merging commands."
+        [[ -f "$other_commands2" ]] && jq_inputs+=("$(cat "$other_commands2")") || echo "File '$other_commands2' not found. Skip merging commands."
+        if [[ -f "$other_commands3" ]]; then
+            local jq_input=""
+            jq_input="{\"commands\": ["
+            jq_input+=$(jq -r --arg item "$repo_name" '.commands[] | select(.repositories | index($item) != null) | @json' "$other_commands3" | paste -sd "," -)
+            jq_input+="]}"
+            jq_inputs+=("$jq_input")
+        else
+            echo "File '$other_commands3' not found. Skip merging commands."
         fi
-        
-        if [ -n "$other_commands" ]; then
-            json1=$(<"$json_file")
-            json2=$(<"$other_commands")
-            merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
-            
+        [[ -f "$json_file_local" ]] && jq_inputs+=("$(cat "$json_file_local")") || echo "File '$json_file_local' not found. Skip merging commands."
+
+        # Merge JSON files if jq_inputs is not empty
+        if [[ ${#jq_inputs[@]} -gt 0 ]]; then
+            merged_json=$(jq -s 'reduce .[] as $item ({}; .commands += $item.commands)' <<< "${jq_inputs[@]}")
+
             echo "$merged_json" > "$tmp_file"
             echo "merged_commands: $tmp_file"
             json_file="$tmp_file"
-            json_file_processed=true
         else
-            echo "File '$other_commands' not found. Skip merging commands."
-            echo "$other_commands1"
-            echo "$other_commands2"
+            echo "No JSON files to merge."
         fi
 	fi
-
-    local json_file_local="$PATH_POLSKIE_SH/.local/config/$config_file"
-    if [ -f "$json_file_local" ]; then
-        echo "File '$json_file_local' found. Merging commands."
-        json1=$(<"$tmp_file")
-        json2=$(<"$json_file_local")
-
-        if [[ "$json_file_processed" = false ]]; then
-            json1=$(<"$json_file")
-        fi
-
-        merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
-        
-        echo "$merged_json" > "$tmp_file"
-        echo "merged_commands: $tmp_file"
-        json_file="$tmp_file"
-    fi
 
     local real_command=$(jq -r --arg cmd "$command" '.commands[] | select(.command == $cmd) | .alias' "$json_file")
     local real_alt_command=$(jq -r --arg cmd "$command" '.commands[] | select(.alt_command == $cmd) | .alias' "$json_file")
