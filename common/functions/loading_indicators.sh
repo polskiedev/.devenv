@@ -76,13 +76,24 @@ progressbar() {
   local width=50
   local progress_width=$(( (progress * width) / max ))
   local remaining_width=$(( width - progress_width ))
+  # 2 bracket, 1 space, 3 string > 100, 1 string percent sign
+  local progressbar_width=$(( width + 7 ))
 
   # Construct the progress bar
   local progress_bar=$(printf "%${progress_width}s" | tr ' ' '=')
   local remaining_bar=$(printf "%${remaining_width}s" | tr ' ' ' ')
 
+  # Calculate the percentage
+  local percent=$(( (progress * 100) / max ))
+
   # Print the progress bar
-  printf "\r[%s%s] %d%%" "$progress_bar" "$remaining_bar" "$(( (progress * 100) / max ))"
+  if [[ "$percent" -lt 100 ]]; then
+    printf "\r[%s%s] %d%%" "$progress_bar" "$remaining_bar" "$percent"
+  else
+    printf "\r[%s%s] %d%%" "$progress_bar" "$remaining_bar" "$percent"
+    sleep 0.25
+    printf "\r%${progressbar_width}s\r" ""  # Move to the start of the line and clear it
+  fi
 }
 
 random_number() {
