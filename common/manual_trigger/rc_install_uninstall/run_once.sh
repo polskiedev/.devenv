@@ -10,26 +10,27 @@
 script_to_run_filepath="$1"
 lock_filepath="$2"
 
-# Function to remove lock file on exit
-cleanup() {
-    rm -f "$lock_filepath"
+# Extract directory and filename
+directory=$(dirname "$script_to_run_filepath")
+filename=$(basename "$script_to_run_filepath")
+
+# echo "========================"
+# echo "File: $lock_filepath"
+# echo "Directory: $directory"
+# echo "Filename: $filename"
+# echo "========================"
+
+prepare_dirs() {
+    mkdir -p "$directory/lockfile"
+    mkdir -p "$directory/runner"
 }
 
-preprocess_script() {
-    # Extract directory and filename
-    directory=$(dirname "$script_to_run_filepath")
-    filename=$(basename "$script_to_run_filepath")
+prepare_dirs
 
-    # echo "========================"
-    # echo "File: $lock_filepath"
-    # echo "Directory: $directory"
-    # echo "Filename: $filename"
-
-    if [[ -f "$script_to_run_filepath" && -z "$lock_filepath" ]]; then
-        lock_filepath="${script_to_run_filepath}.lock"
-        # echo "Lock Path: $lock_filepath"
-    fi
-}
+if [[ -f "$script_to_run_filepath" && -z "$lock_filepath" ]]; then
+    lock_filepath="${directory}/lockfile/${filename}.lock"
+    # echo "Lock Path: $lock_filepath"
+fi
 
 run_once() {
     if [[ ! -f "$script_to_run_filepath" ]]; then
@@ -77,12 +78,16 @@ check_lockfile() {
     fi
 }
 
+# Function to remove lock file on exit
+cleanup() {
+    rm -f "$lock_filepath"
+}
+
 if [[ ! -f "$script_to_run_filepath" ]]; then
     echo "Error: Run Script File Path cannot be empty"
     exit 1
 fi
 
-preprocess_script
 make_lockfile
 
 # Example usage of the check_lockfile function

@@ -9,26 +9,41 @@ list=("$HOME/.bashrc" "/etc/bash.bashrc" "$HOME/.zshrc")
 # script_filepath="$script_dir/$script_line"
 script_filepath="$2"
 
+# Function to display usage
+usage() {
+    echo "Usage: $0 {install|uninstall} {script_fullpath}"
+}
+
+# if [[ -z "$script_filepath" ]]; then
+#     echo "Error: File Path cannot be empty"
+#     usage
+#     exit 1
+# elif [[ ! -f "$script_filepath" ]]; then
+#     echo "Error: '$script_filepath' is not a valid file."
+#     usage
+#     exit 1
+# fi
+
+# Extract directory and filename
+directory=$(dirname "$script_filepath")
+filename=$(basename "$script_filepath")
+
+echo "========================"
+echo "File: $script_filepath"
+echo "Directory: $directory"
+echo "Filename: $filename"
+echo "========================"
+
 # Determine the directory where the script is located
 this_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 script_run_once_filepath="$this_script_dir/run_once.sh"
-script_runner_filepath="$this_script_dir/runner.sh"
+script_runner_dir="$this_script_dir/runner"
+script_runner_filepath="$script_runner_dir/${filename}_runner.sh"
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 {install|uninstall} {file path}"
-}
-
-preprocess_script() {
-    # Extract directory and filename
-    directory=$(dirname "$script_filepath")
-    filename=$(basename "$script_filepath")
-
-    echo "========================"
-    echo "File: $script_filepath"
-    echo "Directory: $directory"
-    echo "Filename: $filename"
+    echo "Usage: $0 {install|uninstall} {file_fullpath}"
 }
 
 make_runner_script() {
@@ -37,8 +52,13 @@ make_runner_script() {
     echo "bash \"$script_run_once_filepath\" \"$script_filepath\"" >> "$script_runner_filepath"
 }
 
+prepare_dirs() {
+    mkdir -p "$directory/lockfile"
+    mkdir -p "$directory/runner"
+}
+
 cleanup() {
-    local lock_filepath="${script_filepath}.lock"
+    local lock_filepath="$directory/lockfile/${filename}.lock"
     if [[ -f "$lock_filepath" ]]; then
         rm -f "$lock_filepath"
     fi
@@ -50,7 +70,6 @@ cleanup() {
 
 # Function to install the script
 install_script() {
-    preprocess_script
     make_runner_script
     for file in "${list[@]}"; do
         # Check if the file exists
@@ -70,8 +89,6 @@ install_script() {
 
 # Function to uninstall the script
 uninstall_script() {
-    preprocess_script
-    process_runner
     cleanup
     for file in "${list[@]}"; do
         # Check if the file exists
@@ -90,20 +107,10 @@ uninstall_script() {
     done
 }
 
-if [[ -z "$script_filepath" ]]; then
-    echo "Error: File Path cannot be empty"
-    usage
-    exit 1
-elif [[ ! -f "$script_filepath" ]]; then
-    echo "Error: '$script_filepath' is not a valid file."
-    usage
-    exit 1
-# else
-#     echo "Processing package: '$script_filepath'"
-fi
-
 script_line="source $script_runner_filepath"
 # script_line="source $script_filepath"
+echo "Script Line: $script_line"
+prepare_dirs
 
 # Main switch-case block to handle install/uninstall commands
 case "$1" in
