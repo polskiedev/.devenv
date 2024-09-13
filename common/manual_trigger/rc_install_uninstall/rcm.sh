@@ -38,7 +38,7 @@ echo "========================"
 this_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 script_run_once_filepath="$this_script_dir/run_once.sh"
-script_runner_dir="$this_script_dir/runner"
+script_runner_dir="$directory/runner"
 script_runner_filepath="$script_runner_dir/${filename}_runner.sh"
 
 # Function to display usage
@@ -48,14 +48,12 @@ usage() {
 
 make_runner_script() {
     # Make runner file
+    mkdir -p "$script_runner_dir"
+    echo "Runner File: '$script_runner_filepath'"
     echo "#!/bin/bash" > "$script_runner_filepath"
     echo "bash \"$script_run_once_filepath\" \"$script_filepath\"" >> "$script_runner_filepath"
 }
 
-prepare_dirs() {
-    mkdir -p "$directory/lockfile"
-    mkdir -p "$directory/runner"
-}
 
 cleanup() {
     local lock_filepath="$directory/lockfile/${filename}.lock"
@@ -109,8 +107,7 @@ uninstall_script() {
 
 script_line="source $script_runner_filepath"
 # script_line="source $script_filepath"
-echo "Script Line: $script_line"
-prepare_dirs
+# echo "Script Line: '$script_line'"
 
 # Main switch-case block to handle install/uninstall commands
 case "$1" in
