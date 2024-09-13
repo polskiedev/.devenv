@@ -40,6 +40,13 @@ psh() {
         fi
         [[ -f "$json_file_local" ]] && jq_inputs+=("$(cat "$json_file_local")") || echo "File '$json_file_local' not found. Skip merging commands."
 
+        # ###################@ DEBUGGING...@Start
+        for value in "${jq_inputs[@]}"; do
+            echo "===================" >> "/root/code/newbook/.polskie.sh/tmp/test.tmp"
+            echo "$value" >> "/root/code/newbook/.polskie.sh/tmp/test.tmp"
+        done
+        # ###################@ DEBUGGING...@End
+
         # Merge JSON files if jq_inputs is not empty
         if [[ ${#jq_inputs[@]} -gt 0 ]]; then
             merged_json=$(jq -s 'reduce .[] as $item ({}; .commands += $item.commands)' <<< "${jq_inputs[@]}")
