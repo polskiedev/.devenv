@@ -222,3 +222,51 @@ merge_json_file() {
     merged_json=$(jq -s '.[0].commands + .[1].commands | {commands: .}' <(echo "$json1") <(echo "$json2"))
     echo "$merged_json"
 }
+
+merge_vscode_tasks_json_files() {
+    output_file="$1"
+    shift  # Shift to get the remaining parameters (directories/files)
+
+    input_files=()
+
+    # Loop through the remaining arguments (directories or files)
+    for arg in "$@"; do
+        if [ -d "$arg" ]; then
+            # If it's a directory, include all .json files in that directory
+            for json_file in "$arg"/*.json; do
+                # Only include if it actually matches .json files
+                if [ -f "$json_file" ]; then
+                    input_files+=("$json_file")
+                    echo "Merging file: '$json_file'"
+                fi
+            done
+        elif [ -f "$arg" ] && [[ "$arg" == *.json ]]; then
+            # If it's a .json file, include it
+            input_files+=("$arg")
+            echo "Merging file: '$arg'"
+        fi
+    done
+
+    # Check if we have at least two JSON files to merge
+    if [ ${#input_files[@]} -lt 2 ]; then
+        echo "You must have at least two JSON files to merge."
+        return 1
+    fi
+
+    # Merge the "tasks" and "inputs" arrays, handling missing keys
+    merged_content=$(jq -s '
+        {
+            version: .[0].version,
+            tasks: (map(.tasks // [] | map(select(.enabled != false) | del(.enabled))) | add),
+            inputs: (map(.inputs // []) | add)
+        }
+    ' "${input_files[@]}")
+
+    if [ $? -eq 0 ]; then
+        echo "$merged_content" > "$output_file"
+        echo "Merged JSON files into: $output_file"
+    else
+        echo "Error: Failed to merge JSON files."
+        return 1
+    fi
+}
